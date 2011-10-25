@@ -1,3 +1,15 @@
 Modeling Biological Networks.
 Mattia Tomasoni (scmt@leeds.ac.uk)
 School of Computing, University of Leeds.
+2011
+
+*******************************************************************************
+
+Building
+
+$ git clone git@github.com:mattiat/scmt.git
+$ mkdir scmtBuild; cd scmtBuild
+$ cmake -DCMAKE_INSTALL_PREFIX="/tmp" -G"Eclipse CDT4 - Unix Makefiles" \
+    -DCMAKE_BUILD_TYPE="Debug" ../scmt
+$ make -j8
+
