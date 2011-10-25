@@ -13,8 +13,14 @@ project(TranscriptionNetwork)
 set(VERSION_MAJOR "0")
 set(VERSION_MINOR "00")
 
-set(WRITABLE_DIR "/export/mailgrp1_d/scmt/")
+###############################################################################
+# CONFIG VARIABLES
+###############################################################################
+
 set(TEMP_DIR "/tmp/")
+set(WRITABLE_DIR ${TEMP_DIR})
+set(MAX_TIME "100.0")
+set(EULER_STEP "0.1")
 
 # STORE NEWLY SET VARIABLES IN *.h.cmake FILES
 file(
