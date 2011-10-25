@@ -5,7 +5,14 @@ School of Computing, University of Leeds.
 
 *******************************************************************************
 
-Building
+
+
+Building:
+
+Requirements
+  CMake >= 2.6
+  Boost C++ library >= 1.4
+  make
 
 $ git clone git@github.com:mattiat/scmt.git
 $ mkdir scmtBuild; cd scmtBuild
