@@ -1,8 +1,7 @@
 //============================================================================
 // Name        : TranscriptionNetwork
 // Author      : Mattia Tomasoni
-// Version     : 0.1
-// Copyright   : University of Leeds
+// Institution : University of Leeds
 //============================================================================
 
 #include "Gene.h"
