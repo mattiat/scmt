@@ -18,7 +18,8 @@ Gene::Gene(std::string id, InputType inputFunctionType, double degradationRate)
   inputFunctionType(inputFunctionType),
   degradationRate(degradationRate),
   concentration(0.0),
-  previousConcentration(-1.0) {
+  previousConcentration(-1.0),
+  time(0.0) {
 	;
 }
 
@@ -98,11 +99,11 @@ bool Gene::isRunning() { // TODO: make this atomic
 * active concentration (isInputAboveThreshold()==true) and starts translation
 * @return 0 if successful
 */
-int Gene::simulateTranslation(double activationTime) { // TODO: make this atomic
+int Gene::simulateTranslation(double activationTime_par) { // TODO: make this atomic
 	std::cerr << "Activating Gene " + id + "...\n";
 	/** time at which the gene becomes activated */
-	time = activationTime;
-	concentrationGraph.addSimulationData(time,concentration);
+	activationTime = activationTime_par;
+	concentrationGraph.addSimulationData(time+activationTime,concentration);
 	concentrationGraph.addApproxData(time,concentration);
 	/** starts simulation */
 	running = true;
@@ -136,7 +137,7 @@ void Gene::run() {
 			/** gene is inactive, protein is being dissipated */
 			concentration = steadyState*(exp(-degradationRate*time));
 		}
-		concentrationGraph.addSimulationData(time, concentration);
+		concentrationGraph.addSimulationData(time+activationTime, concentration);
 		/** verify whether connected genes are ready to become active */
 		BOOST_FOREACH(Edge* o, outgoing) {
 			if(o->destination->isRunning() == false
@@ -163,7 +164,7 @@ int Gene::approximteTranslation() {
 		/** calculate nex point */
 		double x = xPrevious + TIME_STEP;
 		double y = yPrevious + (derivate * TIME_STEP);
-		concentrationGraph.addApproxData(x,y);
+		concentrationGraph.addApproxData(x+activationTime,y);
 		/** update variables */
 		xPrevious = x;
 		yPrevious = y;

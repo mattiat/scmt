@@ -34,6 +34,7 @@ private:
 	std::vector<Edge*> incoming;
 	std::vector<Edge*> outgoing;
 	double time;
+	double activationTime;
 	InputType inputFunctionType;
 	double degradationRate;
 	double concentration;
