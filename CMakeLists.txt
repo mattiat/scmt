@@ -6,7 +6,7 @@
 # NAME AND VERSION
 ###############################################################################
 
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8)
 project(TranscriptionNetwork)
 
 # VERSION AND NAMESPACES
@@ -17,10 +17,10 @@ set(VERSION_MINOR "00")
 # CONFIG VARIABLES
 ###############################################################################
 
-set(TEMP_DIR "/tmp/")
+set(TEMP_DIR "/usr/not-backed-up/tmp/")
 set(WRITABLE_DIR ${TEMP_DIR})
 set(MAX_TIME "100.0")
-set(EULER_STEP "0.1")
+set(TIME_STEP "0.01")
 
 # STORE NEWLY SET VARIABLES IN *.h.cmake FILES
 file(

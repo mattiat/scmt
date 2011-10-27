@@ -10,8 +10,8 @@
 #ifndef MAX_TIME
 #define MAX_TIME @MAX_TIME@
 #endif
-#ifndef EULER_STEP
-#define EULER_STEP @EULER_STEP@
+#ifndef TIME_STEP
+#define TIME_STEP @TIME_STEP@
 #endif
 #ifndef VERION_MINOR
 #define VERION_MINOR @VERSION_MINOR@

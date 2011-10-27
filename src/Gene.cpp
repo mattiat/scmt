@@ -125,7 +125,7 @@ void Gene::joinSimulations(std::vector<Gene*> genes) {
 */
 void Gene::run() {
 	while(! simulationConverged()) {
-		time+=0.1; // TODO: consider making staff atomic in Gene::run()
+		time+=TIME_STEP; // TODO: consider making staff atomic in Gene::run()
 		/** update current concentration */
 		double steadyState = getProductionRate()/degradationRate;
 		previousConcentration = concentration;
@@ -161,8 +161,8 @@ int Gene::approximteTranslation() {
 		/** calculate slope */
 		double derivate = getProductionRate()-degradationRate*yPrevious;
 		/** calculate nex point */
-		double x = xPrevious + EULER_STEP;
-		double y = yPrevious + (derivate * EULER_STEP);
+		double x = xPrevious + TIME_STEP;
+		double y = yPrevious + (derivate * TIME_STEP);
 		concentrationGraph.addApproxData(x,y);
 		/** update variables */
 		xPrevious = x;
