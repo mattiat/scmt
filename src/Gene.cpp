@@ -167,6 +167,9 @@ void Gene::run() {
  * @return 0 if successful
  */
 int Gene::approximteTranslation() {
+	// TODO: this is cheating, cannot use activation times based on protein
+	// concentration from simulation in the approximation procedure. Must
+	// recalculate activation times. Use threads (?)
 	double xPrevious = concentrationGraph.getApproxData().first;
 	double yPrevious = concentrationGraph.getApproxData().second;
 	while (xPrevious < DataGraph::getMax_x_int()) {
