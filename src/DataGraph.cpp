@@ -37,7 +37,7 @@ void DataGraph::addApproxData(double time, double concentration) {
 	return;
 }
 
-const Point DataGraph::getApproxDataLIFO() {
+const Point DataGraph::getApproxData() {
 	return approxData.back();
 }
 

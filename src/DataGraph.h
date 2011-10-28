@@ -20,7 +20,7 @@ public:
 	~DataGraph();
 	void addSimulationData(double time, double concentration);
 	void addApproxData(double time, double concentration);
-	const Point getApproxDataLIFO();
+	const Point getApproxData();
 	static double getMax_x_int();
 	void toFile(std::string geneId);
 	void createPlotScript(std::string geneId);
