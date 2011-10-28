@@ -19,7 +19,8 @@ Gene::Gene(std::string id, InputType inputFunctionType, double degradationRate)
   degradationRate(degradationRate),
   concentration(0.0),
   previousConcentration(-1.0),
-  time(0.0) {
+  absoluteTime(0.0),
+  tauTime(-1.0) {
 	;
 }
 
@@ -84,7 +85,7 @@ void Gene::addIncomingEdge(Edge* e) {
 bool Gene::simulationConverged() {
 	double concentrationChange = concentration-previousConcentration;
 	if(Numerical::isZero(concentrationChange) ||
-			time >= MAX_TIME)
+			absoluteTime >= MAX_TIME)
 		return true;
 	else
 		return false;
@@ -99,12 +100,13 @@ bool Gene::isRunning() { // TODO: make this atomic
 * active concentration (isInputAboveThreshold()==true) and starts translation
 * @return 0 if successful
 */
-int Gene::simulateTranslation(double activationTime) { // TODO: make this atomic
+int Gene::simulateTranslation(double time) { // TODO: make this atomic
 	std::cerr << "Activating Gene " + id + "...\n";
 	/** time at which the gene becomes activated */
-	time = activationTime;
-	concentrationGraph.addSimulationData(time,concentration);
-	concentrationGraph.addApproxData(time,concentration);
+	absoluteTime = time;
+	tauTime = absoluteTime;
+	concentrationGraph.addSimulationData(absoluteTime,concentration);
+	concentrationGraph.addApproxData(absoluteTime,concentration);
 	/** starts simulation */
 	running = true;
 	simulation = boost::thread(&Gene::run, this);
@@ -125,24 +127,33 @@ void Gene::joinSimulations(std::vector<Gene*> genes) {
 * simulates the production of the associated protein
 */
 void Gene::run() {
+	bool above = true;
 	while(! simulationConverged()) {
-		time+=TIME_STEP; // TODO: consider making staff atomic in Gene::run()
+		absoluteTime+=TIME_STEP; // TODO: consider making staff atomic in Gene::run()
+		double localTime = absoluteTime-tauTime;
 		/** update current concentration */
 		double steadyState = getProductionRate()/degradationRate;
 		previousConcentration = concentration;
 		if(inputAboveThreshold()) {
+			/** just crossed the threshold? reset tau **/
+			if (above == false) { above = true; tauTime=absoluteTime; }
+			localTime = absoluteTime-tauTime;
 			/** gene is active, protein is being produced */
-			concentration = steadyState*(1-(exp(-degradationRate*time)));
-		} else {
-			/** gene is inactive, protein is being dissipated */
-			concentration = steadyState*(exp(-degradationRate*time));
+			concentration = steadyState*(1-(exp(-degradationRate*localTime)));
 		}
-		concentrationGraph.addSimulationData(time, concentration);
+		else {
+			/** just crossed the threshold? reset tau **/
+			if (above == true) {above = false; tauTime=absoluteTime; }
+			localTime = absoluteTime-tauTime;
+			/** gene is inactive, protein is being dissipated */
+			concentration = steadyState*(exp(-degradationRate*localTime));
+		}
+		concentrationGraph.addSimulationData(absoluteTime, concentration);
 		/** verify whether connected genes are ready to become active */
 		BOOST_FOREACH(Edge* o, outgoing) {
 			if(o->destination->isRunning() == false
 					&& o->destination->inputAboveThreshold()) {
-				o->destination->simulateTranslation(time);
+				o->destination->simulateTranslation(absoluteTime);
 			}
 		}
 	}

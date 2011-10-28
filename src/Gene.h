@@ -33,7 +33,8 @@ private:
 	std::string id;
 	std::vector<Edge*> incoming;
 	std::vector<Edge*> outgoing;
-	double time;
+	double absoluteTime;
+	double tauTime;
 	InputType inputFunctionType;
 	double degradationRate;
 	double concentration;
