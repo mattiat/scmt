@@ -10,7 +10,7 @@ School of Computing, University of Leeds.
 Building:
 
 Requirements
-  CMake >= 2.6
+  CMake >= 2.8
   Boost C++ library >= 1.4
   make
 
