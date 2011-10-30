@@ -10,7 +10,8 @@
 #include <iostream>
 
 #include "TwoGenesCascade.h"
-//#include "Autoregulation.h"
+//#include "PositiveAutoregulation.h"
+//#include "NegativeAutoregulation.h"
 
 Network::Network(std::string id)
 : id(id) {
