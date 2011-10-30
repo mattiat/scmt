@@ -14,7 +14,7 @@ productionRate_y = 20;
 degradationRate_x = 2; 
 degradationRate_y = 1; 
 steadyState_x = productionRate_x/degradationRate_x;
-yst = productionRate_y/degradationRate_y;
+steadyState_y = productionRate_y/degradationRate_y;
 threshold_y = 10;
 
 % preconditions
@@ -49,7 +49,7 @@ for tInd = 2:n,
       active_y = true;
   end;
   localTime = timeArray(tInd) - tau_y;
-  ex_y(tInd) = level_y*yst*(1-exp(level_y*-degradationRate_y.*localTime));
+  ex_y(tInd) = level_y*steadyState_y*(1-exp(-degradationRate_y.*localTime));
 
 end;
 
