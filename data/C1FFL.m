@@ -53,12 +53,12 @@ for tInd = 2:n,
     dx = productionRate(xInd)-degradationRate(xInd)*x(tInd-1);
     x(tInd) = x(tInd-1) + dx*TIME_STEP;
     % y
-    level_y = activityLevel(x(tInd-1),threshold_xy);
+    level_y = hillFunction(x(tInd-1),threshold_xy,100);
     dy = (level_y*productionRate(yInd))-degradationRate(yInd)*y(tInd-1);
     y(tInd) = y(tInd-1) + dy*TIME_STEP;
     % z
-    level_xz = activityLevel(x(tInd-1),threshold_xz);
-    level_yz = activityLevel(y(tInd-1),threshold_yz);
+    level_xz = hillFunction(x(tInd-1),threshold_xz,100);
+    level_yz = hillFunction(y(tInd-1),threshold_yz,100);
     dz = 0;
     if level_xz>0.5 && level_yz<0.5
         dz_x = 0.5*level_xz*productionRate(zInd)-degradationRate(zInd)*z(tInd-1);
@@ -77,7 +77,7 @@ for tInd = 2:n,
     
     % simulation
     % y
-    level_y = activityLevel(ex_x(tInd-1),threshold_xy);
+    level_y = hillFunction(ex_x(tInd-1),threshold_xy,100);
     if level_y>0.5 && active_y==false,
         active_y = true;
         tau_y = timeArray(tInd-1);
@@ -87,8 +87,8 @@ for tInd = 2:n,
         ex_y(tInd) = level_y*steadyState(yInd)*(1-exp(-degradationRate(yInd)*localTime_y));
     end;
     % z
-    level_xz = activityLevel(ex_x(tInd-1),threshold_xz);
-    level_yz = activityLevel(ex_y(tInd-1),threshold_yz);
+    level_xz = hillFunction(ex_x(tInd-1),threshold_xz,100);
+    level_yz = hillFunction(ex_y(tInd-1),threshold_yz,100);
     if level_xz>0.5 && active_xz==false, % above x threshold?
         active_xz=true;
         tau_xz = timeArray(tInd-1);

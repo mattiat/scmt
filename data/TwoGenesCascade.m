@@ -42,7 +42,7 @@ for tInd = 2:n,
     dx = productionRate_x-degradationRate_x*x(tInd-1);
     x(tInd) = x(tInd-1) + dx*TIME_STEP;
     
-    level_y(tInd) = activityLevel(x(tInd-1),threshold_y);
+    level_y(tInd) = hillFunction(x(tInd-1),threshold_y,100);
     dy = (level_y(tInd)*productionRate_y)-degradationRate_y*y(tInd-1);
     y(tInd) = y(tInd-1) + dy*TIME_STEP;
     
