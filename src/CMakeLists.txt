@@ -27,7 +27,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 # include headers in source directory
 include_directories(.)
 # include headers in data directory
-include_directories(../data/)
+include_directories(../prototypes/)
 # include headers in build directory (.h.cmake)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 

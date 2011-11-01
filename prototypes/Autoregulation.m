@@ -1,6 +1,6 @@
-% 0NE GENE NEGATIVE AUTOREGULATION
+% 0NE GENE AUTOREGULATION
 % desired behavior only with a hill function with steepness > 2 so that
-% once the autoregulation kicks in the activity level 
+% once the autoregulation kicks in the activity level converges
 
 clear all;
 
@@ -11,6 +11,7 @@ timeArray = 0:TIME_STEP:tmax;
 n = length(timeArray);
 
 % network
+positive = true;
 productionRate_x = 25;
 degradationRate_x = 2;
 steadyState_x = productionRate_x/degradationRate_x;
@@ -31,14 +32,24 @@ level_x = zeros(1,n);
 
 for tInd = 2:n,
     % approximation
-    level_x(tInd) = hillFunction(x(tInd-1),threshold_x,2);
+    
     simple = productionRate_x;
-    autoreg = level_x(tInd)*(-productionRate_x);
+    if positive == true
+        level_x(tInd) = hillFunction(x(tInd-1),threshold_x,100);
+        autoreg = level_x(tInd)*productionRate_x;
+    else
+        level_x(tInd) = hillFunction(x(tInd-1),threshold_x,2);
+        autoreg = level_x(tInd)*(-productionRate_x);
+    end;
     dx = (simple+autoreg) - degradationRate_x*x(tInd-1);
     x(tInd) = x(tInd-1) + dx*TIME_STEP;
     
     % simulation
-    level_x(tInd) = hillFunction(ex_x(tInd-1),threshold_x,2);
+    if positive == true
+        level_x(tInd) = hillFunction(ex_x(tInd-1),threshold_x,100);
+    else
+        level_x(tInd) = hillFunction(ex_x(tInd-1),threshold_x,2);
+    end;
     if level_x(tInd)>0.7 && active_x==false,
         tau_x = timeArray(tInd-1);
         active_x = true;
@@ -48,7 +59,11 @@ for tInd = 2:n,
         active_x = false;
     end;
     localTime = timeArray(tInd) - tau_x;
+    if positive == true
+    autoreg = level_x(tInd)*steadyState_x*(1-exp(-degradationRate_x.*localTime));
+    else
     autoreg = level_x(tInd)*(-steadyState_x)*(1-exp(-degradationRate_x.*localTime));
+    end;
     simple = steadyState_x*(1-exp(-degradationRate_x.*timeArray(tInd)));
     ex_x(tInd) = simple+autoreg;
 end;

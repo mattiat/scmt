@@ -1,4 +1,4 @@
-% COHERENT FEED FORWARD LOOP
+% FEED FORWARD LOOP
 
 clear all;
 
@@ -9,6 +9,7 @@ timeArray = 0:TIME_STEP:tmax;
 n = length(timeArray);
 
 % network
+coherent = false;
 xInd=1; yInd=2; zInd=3;
 productionRate = [30,17,25];
 degradationRate = [2,1,5];
@@ -60,17 +61,25 @@ for tInd = 2:n,
     level_xz = hillFunction(x(tInd-1),threshold_xz,100);
     level_yz = hillFunction(y(tInd-1),threshold_yz,100);
     dz = 0;
-    if level_xz>0.5 && level_yz<0.5
+    if level_xz>0.5 && level_yz<0.5 % above x threshold?
         dz_x = 0.5*level_xz*productionRate(zInd)-degradationRate(zInd)*z(tInd-1);
         dz = dz_x;
     end;
-    if level_yz<0.5 && level_yz>0.5
-        dz_y = 0.5*level_yz*productionRate(zInd)-degradationRate(zInd)*z(tInd-1);
+    if level_xz<0.5 && level_yz>0.5 % above y threshold?
+        if coherent == true,
+            dz_y = 0.5*level_yz*productionRate(zInd)-degradationRate(zInd)*z(tInd-1);
+        else
+            dz_y = 0.5*level_yz*(-productionRate(zInd))-degradationRate(zInd)*z(tInd-1);
+        end;
         dz = dz_y;
     end;
-    if level_yz>0.5 && level_yz>0.5
+    if level_yz>0.5 && level_yz>0.5 % both x and y threshold?
         productionRate_xz = 0.5*level_xz*productionRate(zInd);
-        productionRate_yz = 0.5*level_yz*productionRate(zInd);
+        if coherent == true,
+            productionRate_yz = 0.5*level_yz*productionRate(zInd);
+        else
+            productionRate_yz = 0.5*level_yz*(-productionRate(zInd));
+        end;
         dz = productionRate_xz + productionRate_yz -degradationRate(zInd)*z(tInd-1);
     end;
     z(tInd) = z(tInd-1) + dz*TIME_STEP;
@@ -101,15 +110,19 @@ for tInd = 2:n,
         localTime_xz = timeArray(tInd) - tau_xz;
         ex_z(tInd) = 0.5*level_xz*steadyState(zInd)*(1-exp(-degradationRate(zInd)*localTime_xz));
     end;
-    if level_yz<0.5 && level_yz>0.5
+    if level_xz<0.5 && level_yz>0.5
         localTime_yz = timeArray(tInd) - tau_yz;
         ex_z(tInd) = 0.5*level_yz*steadyState(zInd)*(1-exp(-degradationRate(zInd)*localTime_yz));
     end; 
-    if level_yz>0.5 && level_yz>0.5
+    if level_yz>0.5 && level_yz>0.5 % both x and y threshold?
         localTime_xz = timeArray(tInd) - tau_xz;
         localTime_yz = timeArray(tInd) - tau_yz;
         productionRate_xz = 0.5*level_xz*steadyState(zInd);
-        productionRate_yz = 0.5*level_yz*steadyState(zInd);
+        if coherent == true,
+            productionRate_yz = 0.5*level_yz*steadyState(zInd);
+        else
+            productionRate_yz = 0.5*level_yz*(-steadyState(zInd));
+        end;
         xProd = productionRate_xz*(1-exp(-degradationRate(zInd)*localTime_xz));
         yProd = productionRate_yz*(1-exp(-degradationRate(zInd)*localTime_yz));
         ex_z(tInd) = xProd + yProd;
