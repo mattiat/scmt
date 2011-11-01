@@ -33,14 +33,18 @@ for tInd = 2:n,
     x(tInd) = x(tInd-1) + dx*TIME_STEP;
     
     % simulation
-    if level_x >0.01 && active_x==false,
+    if level_x >0.5 && active_x==false,
         tau_x = timeArray(tInd-1);
         active_x = true;
     end;
     localTime = timeArray(tInd) - tau_x;
     autoreg = level_x*steadyState_x*(1-exp(-degradationRate_x.*localTime));
     simple = steadyState_x*(1-exp(-degradationRate_x.*timeArray(tInd)));
-    ex_x(tInd) = simple + autoreg;
+    if active_x==true,
+       ex_x(tInd) = simple + autoreg;
+    else
+        ex_x(tInd) = simple;
+    end;
 end;
 
 plot(timeArray,[ex_x; x]);
