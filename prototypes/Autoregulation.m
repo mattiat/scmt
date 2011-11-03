@@ -60,12 +60,16 @@ for tInd = 2:n,
     end;
     localTime = timeArray(tInd) - tau_x;
     if positive == true
-    autoreg = level_x(tInd)*steadyState_x*(1-exp(-degradationRate_x.*localTime));
+        autoreg = level_x(tInd)*steadyState_x*(1-exp(-degradationRate_x.*localTime));
     else
-    autoreg = level_x(tInd)*(-steadyState_x)*(1-exp(-degradationRate_x.*localTime));
+        autoreg = level_x(tInd)*(-steadyState_x)*(1-exp(-degradationRate_x.*localTime));
     end;
     simple = steadyState_x*(1-exp(-degradationRate_x.*timeArray(tInd)));
-    ex_x(tInd) = simple+autoreg;
+    if level_x(tInd)>0.7
+        ex_x(tInd) = simple+autoreg;
+    else
+        ex_x(tInd) = simple;
+    end;
 end;
 
 plot(timeArray,[ex_x; x]);
