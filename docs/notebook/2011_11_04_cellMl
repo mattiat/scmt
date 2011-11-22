@@ -1,0 +1,44 @@
+http://www.cellml.org/getting-started/cellml-primer
+
+CellML: designed to describe mathematical models of cellular biological function.
+
+component: functional unit that may correspond to a physical compartment, event, or species.
+<component name="environment">
+   <variable name="time" public_interface="out" units="second"/>
+</component>
+Mathematical equations are expressed using MathML 2.0.
+Most CellML users use a tool to convert equations in a regular format into MathML.
+
+Grouping of components: encapsulation and containment.
+_Containment is used to describe the physical organisation, such as biological structure.
+ (physical grouping)
+_Encapsulation hides a complex network of components from the rest of the model behind a single interface.
+ (conceptual grouping)
+
+Connection of variables: mapping of variables from one component to variables in another.
+transfer of a variable's value from one component to another (information exchange).
+<connection>
+  <map_components component_1="membrane" component_2="sodium_current"/>
+  <map_variables variable_1="V" variable_2="V"/>
+  <map_variables variable_1="i_Na" variable_2="i_Na"/>
+</connection>
+The interface attributes of each pair of variables must be compatible (out->in)
+
+all variables and numbers in a model are associated with a defined unit.
+all units used in a model must be declared under units elements.
+<units name="nM">
+   <unit prefix="nano" units="mole" />
+   <unit units="litre" exponent="-1" />
+</units>
+"nM" (nanomolar / nanomoles per litre) is declared using a combination of standard CellML units
+_"mole" with the prefix nano (corresponding to 10^-9)
+_"litre" with an exponent of -1, creating the "per litre" part
+
+Metadata provides a context for the document.
+_eg: name of the model author, the date the model was created, key words..
+_eg: annotating entities, components, variables...
+
+
+Editing and simulation: OpenCell, COR (Cellular Open Resource), and JSim
+Development: CellML API is written in C++
+Examples: http://models.cellml.org

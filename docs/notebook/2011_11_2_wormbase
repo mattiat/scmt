@@ -1,0 +1,30 @@
+homolog: ortholog and paralog genes.
+
+ortholog: genes in different species that evolved from a common ancestral gene by speciation (process by which new biological species arise). Orthologs retain the same function in the course of evolution. Identification of orthologs is critical for reliable prediction of gene function in newly sequenced genomes.
+
+paralog: genes related by duplication within a genome. Orthologs retain the same function in the course of evolution, whereas paralogs evolve new functions, even if these are related to the original one.
+
+KOGs (euKaryote Orthologous Groups): group of proteins that is an eukaryote-specific version of the Conserved Orthologous Groups; defined by a triangle of reciprocal best BlastP hits between domains of eukaryotic proteins from at least three highly divergent species (i.e., species that diverged no later than the Cambrian Era, 500 10^6 years ago, e.g. C. elegans, D. melanogaster, and H. sapiens).
+
+locus: specific location of a gene or DNA sequence on a chromosome, eg: sequence F37D6.6 has locus tag-68
+
+operon: functioning unit of genomic DNA containing a cluster of genes under the control of a single regulatory signal or promoter.
+
+lacZ: gene (part of the lac operon in E Coli) that encodes β-galactosidase (LacZ), an intracellular enzyme that cleaves the disaccharide lactose into glucose and galactose. This enzyme causes bacteria expressing the gene to appear blue when grown on a medium that contains the substrate analog X-gal.
+
+NCBI (National Center for Biotechnology Information): U.S. government-funded national resource for molecular biology.
+
+BLASTP (Basic Local Alignment Search Tool): protein version of BLAST
+
+cDNA (complementary DNA): DNA synthesized from an mRNA template in a reaction catalyzed by the DNA polymerase and reverse transcriptase.
+
+reverse transcriptase (RNA-dependent DNA polymerase): enzyme that transcribes single-stranded RNA into single-stranded DNA.
+
+chemosensory (neuron): used to sense chemicals.
+
+morphogen: substance governing the pattern of tissue development.
+
+Zn: zinc
+Na: sodium
+Cl-: chloride (Cl: chlorine)
+K: potassium
