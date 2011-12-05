@@ -1,4 +1,4 @@
-function [ level ] = logicGate( concentration, threshold )
+function [ level ] = stepFunction( concentration, threshold )
 if concentration > threshold
    level = 1;
 else

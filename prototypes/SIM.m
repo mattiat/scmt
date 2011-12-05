@@ -19,9 +19,9 @@ steadyState(xInd) = productionRate(xInd)/degradationRate(xInd);
 threshold(y1Ind) = 7;
 threshold(y2Ind) = 14;
 threshold(y3Ind) = 21;
-sx(1:floor(n/3)) = 1; % signal that activates x until time n/2
+sx(1:floor(n/3)) = 1; % signal sx binds x when time < 1n/3
 sx(floor(n/3):floor(2/3*n)) = 0;
-sx(floor(2/3*n):n) = 1;
+sx(floor(2/3*n):n) = 1; % and when time > 2n/3
 
 
 % preconditions
